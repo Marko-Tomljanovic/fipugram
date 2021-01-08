@@ -1,33 +1,27 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/singup">Singup</router-link>
-    </div>
+<div class="app">
+  <b-navbar toggleable="lg">
+    <b-navbar-brand to="/" style=" font-family:Lucida Handwriting;">Fipugram</b-navbar-brand>
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav>
+        <b-nav-item to="/">Home</b-nav-item>
+        <b-nav-item to="/login">Login</b-nav-item>
+        <b-nav-item to="/singup">SignUp</b-nav-item>
+      </b-navbar-nav>
+       <b-nav-form class="ml-auto">
+          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+        </b-nav-form>
+    </b-collapse>
+  </b-navbar>
     <router-view/>
   </div>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+<style>
+.app{
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 </style>
+

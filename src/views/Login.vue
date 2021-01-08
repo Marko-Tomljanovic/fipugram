@@ -22,9 +22,3 @@
 </div>
   </div>
 </template>
-
-
-
-<style>
-  @import './../assets/bootstrap.css';
-</style>
