@@ -13,7 +13,7 @@
           <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
         </b-nav-form>
     </b-collapse>
-  </b-navbar>
+  </b-navbar><br>
     <router-view/>
   </div>
 </template>

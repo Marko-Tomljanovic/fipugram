@@ -4,7 +4,7 @@
     Featured
   </div>
   <div class="card-body p-0">
-    <img class="card-img-top" src="https://picsum.photos/800" alt="img">
+    <img class="card-img-top" :src="info" alt="img">
   </div>
   <div class="card-footer text-muted">
     2 days ago
@@ -14,6 +14,7 @@
 
 <script>
 export default {
+  props: ["info"],
   name: 'InstagramCard',
 };
 </script>
