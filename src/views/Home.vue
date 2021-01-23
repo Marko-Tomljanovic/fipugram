@@ -1,13 +1,12 @@
 <template>
 <div class="row">
-<div class="col-2"></div>
-<div class="col-7">
+<div class="offset-md-2 col-7">
 
-<instagram-card v-for="card in cards" :key="card" :info="card"/>    
+<instagram-card v-for="card in filteredCards" :key="card.url" :info="card"/>    
 
 </div>
-<div class="col-3">
-  <p v-for="card in cards" :key="card">Ovo je tekst...{{ card }}</p>
+<div class="col-2">
+  Sidebar {{ store.searchTearm }}
 </div>
 </div>
 </template>
@@ -16,19 +15,38 @@
 
 <script>
 import InstagramCard from '@/components/InstagramCard.vue'
+import store from "@/store"
 
 let cards= []
 cards = [
-  'https://picsum.photos/id/1/400/400',
-  'https://picsum.photos/id/3/400/400',
-  'https://picsum.photos/id/4/400/400',
-  'https://picsum.photos/id/5/400/400'
-]
+  {url: 'https://picsum.photos/id/1/500/500', description: "setup", time: "few minutes ago"},
+  {url: 'https://picsum.photos/id/3/500/500', description: "iphone", time: "5 minutes ago"},
+  {url: 'https://picsum.photos/id/8/500/500', description: "laptop", time: "8 minutes ago"},
+  {url: 'https://picsum.photos/id/10/500/500', description: "šuma", time: "10 minutes ago"}
+  ]
 export default {
   name: 'home',
   data: function(){
     return{
-      cards: cards
+      cards,
+      store
+    }
+  },
+  computed: {
+    filteredCards(){
+      let termin = this.store.searchTearm;
+      
+      return this.cards.filter((card) => card.description.includes(termin));
+
+      //logika koja filtrira cards
+      // let termin = this.store.searchTearm
+      // let newsCard = []
+      // for(let card of this.cards){
+      //   if (card.description.indexOf(termin) >= 0) {
+      //     newsCard.push(card)
+      //   }
+      // }
+      // return newsCard;
     }
   },
   components: {
