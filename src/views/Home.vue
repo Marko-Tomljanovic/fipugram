@@ -34,9 +34,9 @@ export default {
   },
   computed: {
     filteredCards(){
-      let termin = this.store.searchTearm;
+      //let termin = this.store.searchTearm;
       
-      return this.cards.filter((card) => card.description.includes(termin));
+      return this.cards.filter((card) => card.description.includes(this.store.searchTearm));
 
       //logika koja filtrira cards
       // let termin = this.store.searchTearm
