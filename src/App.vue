@@ -29,15 +29,21 @@ import { firebase } from '@/firebase';
 import router from '@/router';
 
 firebase.auth().onAuthStateChanged((user) => {
+const currentRoute = router.currentRoute;
+
   if (user) {
+    // User is signed in.
     console.log('user.email');
     store.currentUser = user.email;
-    // User is signed in.
+
+     if(!currentRoute.meta.needsUser){
+      router.push({ name: 'Home' });
+    }
   }else{
     console.log('No User');
     store.currentUser = null;
 
-    if(router.name !== 'Login'){
+    if(currentRoute.meta.needsUser){
       router.push({ name: 'Login' });
     }
   }

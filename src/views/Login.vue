@@ -27,7 +27,7 @@
 import {firebase} from '@/firebase.js';
 
 export default {
-  name: 'login',
+  name: 'Login',
   data(){
     return{
       username:'',
@@ -37,15 +37,16 @@ export default {
   methods: {
     login(){
       console.log('login..' + this.username);
-      firebase.auth().signInWithEmailAndPassword(this.username, this.password)
+
+      firebase
+      .auth()
+      .signInWithEmailAndPassword(this.username, this.password)
       .then((result) => {
         console.log('Uspiješna prijava..', result);
-       this.$router.replace({name: 'Home'})
-      }).catch((e) => {
-        console.error('Greška', e);
       })
-
-      ;
+      .catch(function(e) {
+        console.error('Greška', e);
+      });
     }
 }
 }
