@@ -12,8 +12,9 @@
           ></b-form-input>
         </b-nav-form>
        <b-navbar-nav style="font-weight: 650;">
-        <b-nav-item to="/login">Login</b-nav-item>
-        <b-nav-item to="/singup">SignUp</b-nav-item>
+        <b-nav-item v-if="!store.currentUser" to="/login">Login</b-nav-item>
+        <b-nav-item v-if="!store.currentUser" to="/singup">SignUp</b-nav-item>
+         <b-nav-item v-if="store.currentUser" href="#" @click.prevent="logout()">LogOut</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar><br>
@@ -23,12 +24,40 @@
 
 
 <script>
-import store from "@/store"
+import store from "@/store";
+import { firebase } from '@/firebase';
+import router from '@/router';
+
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    console.log('user.email');
+    store.currentUser = user.email;
+    // User is signed in.
+  }else{
+    console.log('No User');
+    store.currentUser = null;
+
+    if(router.name !== 'Login'){
+      router.push({ name: 'Login' });
+    }
+  }
+});
+
 export default {
   name: 'app',
   data(){
     return{
       store,
+    }
+  },
+  methods:{
+    logout(){
+      firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.$router.push({ name: 'Login' });
+      });
     }
   }
 }
