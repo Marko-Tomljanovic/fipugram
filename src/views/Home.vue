@@ -4,14 +4,10 @@
 
 <form @submit.prevent="postNewImage" class="form-inline mb-5">
  <div class="form-group">
- <label for="imageUrl">Image URL</label>
- <input
- v-model="newImageUrl"
-type="text"
-class="form-control ml-2"
-placeholder="Enter the image URL"
-id="imageUrl"
- />
+
+
+ <croppa :width='400' ::height='400' v-model="imageReference" placeholder='Ucitaj sliku'></croppa><br>
+ 
  </div>
  <div class="form-group">
  <label for="imageDescription">Description</label>
@@ -59,6 +55,7 @@ export default {
       store,
       newImageDescription:'',
       newImageUrl:'',
+      imageReference:null,
 
     }
   },
@@ -90,7 +87,11 @@ export default {
       });
     },
     postNewImage(){
-      const imageUrl = this.newImageUrl;
+      this.imageReference.generateBlob(blobData => {
+        console.log(blobData);
+      });
+return;
+
       const imageDescription = this.newImageDescription;
 
       db.collection('posts')
