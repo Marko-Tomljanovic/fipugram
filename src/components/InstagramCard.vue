@@ -10,15 +10,24 @@
     alt="img">
   </div>
   <div class="card-footer text-muted">
-    {{ info.time }}
+    {{ postedFromNow }}
   </div>
 </div><br>
 </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   props: ["info"],
   name: 'InstagramCard',
+
+  computed: {
+    postedFromNow() {
+      return moment(this.info.time).fromNow();
+
+    },
+  }
 };
 </script>

@@ -27,7 +27,7 @@ id="imageDescription"
 image</button>
  </form>
 
-<instagram-card v-for="card in filteredCards" :key="card.url" :info="card"/>    
+<instagram-card v-for="card in filteredCards" :key="card.id" :info="card"/>    
 
 </div>
 <div class="col-2">
@@ -43,25 +43,52 @@ import InstagramCard from '@/components/InstagramCard.vue'
 import store from "@/store"
 import { db } from '@/firebase.js'
  
-let cards= []
-cards = [
-  {url: 'https://picsum.photos/id/1/500/500', description: "setup", time: "few minutes ago"},
-  {url: 'https://picsum.photos/id/3/500/500', description: "iphone", time: "5 minutes ago"},
-  {url: 'https://picsum.photos/id/8/500/500', description: "laptop", time: "8 minutes ago"},
-  {url: 'https://picsum.photos/id/10/500/500', description: "šuma", time: "10 minutes ago"}
-  ]
+// let cards= []
+// cards = [
+//   {url: 'https://picsum.photos/id/1/500/500', description: "setup", time: "few minutes ago"},
+//   {url: 'https://picsum.photos/id/3/500/500', description: "iphone", time: "5 minutes ago"},
+//   {url: 'https://picsum.photos/id/8/500/500', description: "laptop", time: "8 minutes ago"},
+//   {url: 'https://picsum.photos/id/10/500/500', description: "šuma", time: "10 minutes ago"}
+//   ]
+
 export default {
   name: 'home',
   data: function(){
     return{
-      cards,
+      cards: [],
       store,
       newImageDescription:'',
       newImageUrl:'',
 
     }
   },
+  mounted(){
+    console.log('MOUNTED ');
+    this.getPost();
+    //dohvat iz Firebase-a
+  },
   methods:{
+    getPost(){
+      console.log('firebase dohvat');
+
+      db.collection('posts')
+      .orderBy('posted_at', 'desc')
+      .limit(10)
+      .get()
+      .then((query) => {
+        query.forEach((doc) => {
+
+          const data = doc.data();
+
+          this.cards.push({
+            id: doc.id,
+            time: data.posted_at,
+            description: data.desc,
+            url: data.url,
+          });
+        });
+      });
+    },
     postNewImage(){
       const imageUrl = this.newImageUrl;
       const imageDescription = this.newImageDescription;
@@ -74,9 +101,12 @@ export default {
         posted_at: Date.now(),
         })
         .then((doc) => {
+          this.cards =[];
           console.log('Spremljeno', doc);
           this.newImageUrl = '';
           this.newImageDescription='';
+
+          this.getPost();
         })
         .catch((e) => {
           console.error(e);
